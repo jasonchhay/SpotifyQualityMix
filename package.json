@@ -1,0 +1,27 @@
+{
+	"name": "SpotifyQualityMix",
+	"version": "1.0.0",
+	"description": "Filter your Spotify library based on audio features, create playlists out of them",
+	"main": "server/index.js",
+	"author": "Jason Chhay",
+	"license": "ISC",
+	"scripts": {
+		"start": "node server",
+		"server": "nodemon server/server.js",
+		"client": "npm start --prefix client",
+		"dev": "concurrently \"npm run server\" \"npm run client\""
+	},
+	"dependencies": {
+		"axios": "^0.19.2",
+		"cookie-parser": "^1.4.5",
+		"cors": "^2.8.5",
+		"debug": "~2.6.9",
+		"express": "~4.16.1",
+		"fontsource-dm-sans": "^3.0.5",
+		"querystring": "~0.2.0"
+	},
+	"devDependencies": {
+		"concurrently": "^5.3.0",
+		"nodemon": "^2.0.4"
+	}
+}
