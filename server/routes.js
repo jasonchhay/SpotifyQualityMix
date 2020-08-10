@@ -8,7 +8,7 @@ var client_id = '9f52bf78e99142d0985d7027ddadc584'; // Your client id
 var client_secret = 'a4529b419153405292d05493e287e66d'; // Your secret
 
 var REDIRECT_URI = 'http://localhost:8888/api/callback'; // Your redirect uri
-var FRONTEND_URI = 'http://localhost:3000';
+var FRONTEND_URI = 'http://localhost:3000/redirect';
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
@@ -33,13 +33,22 @@ router.get('/login', function (req, res) {
 	var state = generateRandomString(16);
 	res.cookie(stateKey, state);
 	// your application requests authorization
-	var scope = 'user-read-private user-read-email';
+	var scopes = [
+		'user-read-private',
+		'user-read-email',
+		'playlist-read-private',
+		'playlist-read-collaborative',
+		'playlist-modify-public',
+		'playlist-modify-private',
+		'user-library-read',
+	];
+
 	res.redirect(
 		'https://accounts.spotify.com/authorize?' +
 			querystring.stringify({
 				response_type: 'code',
 				client_id: client_id,
-				scope: scope,
+				scope: scopes.join(' '),
 				redirect_uri: REDIRECT_URI,
 				state: state,
 			})

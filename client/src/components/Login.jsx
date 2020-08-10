@@ -1,21 +1,24 @@
 import React from 'react';
 
-import Button from './Button';
-import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
+import AppButton from './AppButton';
+
+import { githubRepo } from '../utils/variables';
 
 function Login(props) {
 	return (
 		<div>
 			<h1>QualityMix</h1>
-			<Button
+			<AppButton
 				title='Login to Spotify'
 				backgroundColor='#1DB954'
-				href='http://localhost:8888/api/login'
+				href='/login'
 			/>
-			<Button
+			<AppButton
 				title='View on Github'
-				image={<AccessAlarmIcon />}
-				href='http://localhost:8888/api/login'
+				image={
+					<img src={require('../images/github_logo.png')} alt='GitHub Logo' />
+				}
+				href={githubRepo}
 			/>
 		</div>
 	);
