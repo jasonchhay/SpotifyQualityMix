@@ -46,18 +46,6 @@ const useStyles = makeStyles({
 			},
 		},
 	}),
-
-	overlay: {
-		position: 'absolute',
-		top: '0',
-		left: '0',
-		right: '0',
-		bottom: '0',
-
-		'&:hover': {
-			backgroundColor: 'hsla(0, 0, 100%, .3)',
-		},
-	},
 });
 
 function AppButton({

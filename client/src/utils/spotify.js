@@ -13,15 +13,28 @@ export const setAccessToken = (token) => {
 };
 
 export const getPlaylists = async () => {
-	spotifyApi
-		.getUserPlaylists()
-		.then((data) => {
-			console.log('User playlists', data);
-			return data;
-		})
-		.catch((err) => {
-			console.error(err);
-		});
+	try {
+		return await spotifyApi.getUserPlaylists();
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+export const getLibrary = async () => {
+	try {
+		console.log('Reached library');
+		return await spotifyApi.getMySavedTracks();
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+export const getPlaylistTracks = async (id) => {
+	try {
+		return await spotifyApi.getPlaylistTracks(id);
+	} catch (err) {
+		console.error(err);
+	}
 };
 
 export const logOut = () => {

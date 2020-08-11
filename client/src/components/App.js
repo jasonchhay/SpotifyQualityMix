@@ -9,6 +9,7 @@ import { accessTokenKey, refreshTokenKey } from '../utils/variables';
 import AppContainer from './layouts/AppContainer';
 import Login from './Login';
 import Playlists from './Playlists';
+import Tracks from './Tracks';
 
 function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
@@ -29,6 +30,7 @@ function App() {
 		<Router>
 			<AppContainer loggedIn={loggedIn}>
 				<Route exact path='/' component={loggedIn ? Playlists : Login} />
+				<Route exact path='/tracks/:id' component={Tracks} />
 				<Route
 					exact
 					path='/login'
