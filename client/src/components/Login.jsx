@@ -13,13 +13,6 @@ function Login(props) {
 				backgroundColor='#1DB954'
 				href='/login'
 			/>
-			<AppButton
-				title='View on Github'
-				image={
-					<img src={require('../images/github_logo.png')} alt='GitHub Logo' />
-				}
-				href={githubRepo}
-			/>
 		</div>
 	);
 }

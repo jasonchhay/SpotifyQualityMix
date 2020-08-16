@@ -8,7 +8,7 @@ const useStyles = makeStyles({
 	container: {
 		marginLeft: '5rem',
 		'& > div': {
-			padding: '1rem 2.5rem 0 2.5rem',
+			padding: '1rem 5rem 0 2.5rem',
 		},
 	},
 });
@@ -18,8 +18,8 @@ function AppContainer({ loggedIn, children }) {
 
 	return (
 		<>
-			{loggedIn && <Sidebar />}
-			<Container className={`${classes.container}`} maxWidth='lg'>
+			<Sidebar loggedIn={loggedIn} />
+			<Container className={`${classes.container}`} maxWidth='xl'>
 				<div>{children}</div>
 			</Container>
 		</>

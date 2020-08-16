@@ -8,9 +8,9 @@ const useStyles = makeStyles({
 	container: (props) => ({
 		backgroundColor: props.backgroundColor,
 		color: props.color,
-		padding: '.75rem 1.5rem',
+		padding: '.5rem 1.25rem',
+		marginRight: '1.5rem',
 		borderRadius: '2rem',
-		margin: '1em',
 		boxShadow: '0 1px 1px rgba(0, 0, 0, 0.5)',
 		transition: '.2s ease-in',
 		position: 'relative',
@@ -50,7 +50,6 @@ const useStyles = makeStyles({
 
 function AppButton({
 	title,
-	image,
 	color = colors.white,
 	backgroundColor = colors.black,
 	...otherProps
@@ -60,7 +59,6 @@ function AppButton({
 	return (
 		<Button className={`${classes.container}`} {...otherProps}>
 			<div className='button-content'>
-				{image && <div className='image-container'>{image}</div>}
 				{title}
 				<div className='overlay' />
 			</div>

@@ -15,16 +15,20 @@ function Playlists(props) {
 	const classes = useStyles();
 
 	useLayoutEffect(() => {
+		var isSubscribed = true;
+
 		spotify
 			.getPlaylists()
 			.then((result) => {
-				setPlaylists(result.items);
+				if (isSubscribed) setPlaylists(result.items);
 				setLoading(false);
 			})
 			.catch((err) => {
 				console.log(err.message);
 				setLoading(false);
 			});
+
+		return () => (isSubscribed = false);
 	}, []);
 
 	return (
@@ -32,7 +36,7 @@ function Playlists(props) {
 			<h1>Choose a playlist </h1>
 			{!loading && (
 				<Grid container space={3}>
-					<Grid item xs={3}>
+					<Grid item xs={2}>
 						<PlaylistsCard
 							id={'library'}
 							name={'Liked songs'}
@@ -41,7 +45,7 @@ function Playlists(props) {
 					</Grid>
 					{playlists.map(({ id, name, images, tracks }) => {
 						return (
-							<Grid item xs={3} key={id}>
+							<Grid item xs={2} key={id}>
 								<PlaylistsCard
 									id={id}
 									name={name}

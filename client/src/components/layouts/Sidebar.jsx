@@ -25,11 +25,12 @@ const useStyles = makeStyles({
 		padding: '1rem 0 1rem',
 	},
 
-	avatarContainer: {
+	avatarContainer: (props) => ({
 		width: '2.5rem',
 		height: '2.5rem',
 		borderRadius: '2rem',
 		overflow: 'hidden',
+		visibility: props.loggedIn ? 'visible' : 'hidden',
 
 		'& img': {
 			width: '100%',
@@ -38,14 +39,14 @@ const useStyles = makeStyles({
 		'&:hover': {
 			backgroundColor: 'hsla(0, 0%, 100%, 1)',
 		},
-	},
+	}),
 
 	githubLogo: {
 		width: '2.5rem',
 	},
 });
 
-function Sidebar({ avatar }) {
+function Sidebar({ loggedIn, avatar }) {
 	const [anchorEl, setAnchorEl] = useState(null);
 
 	const handleClick = (event) => {
@@ -61,7 +62,7 @@ function Sidebar({ avatar }) {
 		window.location.replace('/');
 	};
 
-	const classes = useStyles();
+	const classes = useStyles({ loggedIn });
 	return (
 		<div className={`${classes.container}`}>
 			<Button

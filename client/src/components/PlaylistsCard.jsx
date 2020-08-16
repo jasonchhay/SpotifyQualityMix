@@ -11,7 +11,7 @@ import HoverButton from './HoverButton';
 
 const useStyles = makeStyles({
 	container: {
-		width: '250px',
+		width: '12vw',
 		paddingBottom: '1rem',
 		textAlign: 'center',
 
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 
 			'& .image-wrapper': {
 				padding: 0,
-				height: '250px',
+				height: '12vw',
 				overflow: 'hidden',
 				boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
 				borderRadius: 0,
@@ -32,12 +32,17 @@ const useStyles = makeStyles({
 
 			'& .playlist-title': {
 				marginTop: '1rem',
+				marginBottom: '.25rem',
 				color: colors.black,
 				textDecoration: 'none',
 
 				'&:hover': {
 					textDecoration: '2px black underline',
 				},
+			},
+
+			'& .num-tracks': {
+				marginTop: 0,
 			},
 		},
 	},
@@ -57,7 +62,9 @@ function PlaylistsCard({
 					<img src={image} alt={`${name} Image`} />
 				</HoverButton>
 				<h4 className='playlist-title'>{name}</h4>
-				<h5>{numberTracks} Tracks</h5>
+				{numberTracks != null && (
+					<h5 className='num-tracks'>{numberTracks} Tracks</h5>
+				)}
 			</Link>
 		</div>
 	);
