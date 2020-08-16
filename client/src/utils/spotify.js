@@ -93,14 +93,6 @@ export const addTracksToPlaylist = async (uris) => {
 	}
 };
 
-/*
-    @TODO add implementation for the following:
-    * Search query API for seed tracks and artists
-    * Get genre seeds
-    * Use recommendation API
-    * Generate playlist based on results for user
-*/
-
 export const logOut = () => {
 	localStorage[accessTokenKey] = '';
 	localStorage[refreshTokenKey] = '';
