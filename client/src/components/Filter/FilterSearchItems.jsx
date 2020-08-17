@@ -1,11 +1,11 @@
 import React from 'react';
 
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, withStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic } from '@fortawesome/free-solid-svg-icons';
-import colors from '../../utils/colors';
+
 import { Chip } from '@material-ui/core';
 
 const useStyles = makeStyles({

@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import * as spotify from '../utils/spotify';
 
 import { getHashParams } from '../utils/helpers';
-import { accessTokenKey, refreshTokenKey } from '../utils/variables';
+import { accessTokenKey } from '../utils/variables';
 
 import AppContainer from './layouts/AppContainer';
 import Login from './Login';

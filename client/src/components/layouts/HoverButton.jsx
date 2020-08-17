@@ -2,8 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 
-import colors from '../../utils/colors';
-
 const useStyles = makeStyles({
 	container: {
 		padding: 0,

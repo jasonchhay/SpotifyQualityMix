@@ -21,71 +21,85 @@ const useStyles = makeStyles({
 });
 
 export default function Filter() {
-	const [filters, setFilters] = useState(() => {
-		var defaultFilters = {};
+	const [filters, setFilters] = useState(
+		(() => {
+			var defaultFilters = {};
 
-		featureTypes.forEach(({ type }) => {
-			defaultFilters = { ...defaultFilters, [type]: [0, 100] };
-		});
+			featureTypes.forEach(({ type, range }) => {
+				defaultFilters = { ...defaultFilters, [type]: range };
+			});
 
-		console.log(defaultFilters);
-		return defaultFilters;
-	});
+			return defaultFilters;
+		})()
+	);
 
 	const [tracks, setTracks] = useState([]);
 	const [seeds, setSeeds] = useState([]);
-
 	const [features, setFeatures] = useState([]);
+	const [limit, setLimit] = useState(20);
 
-	const [total, setTotal] = useState(20);
+	useEffect(() => {
+		var isSubscribed = true;
 
-	const [isSubscribed, setIsSubscribed] = useState(true);
-
-	/*
-	const getAverageFeatures = (id) => {
-		if (id === 'library') {
-			// Get user's saved library
-			spotify
-				.getEntireLibraryFeatures()
-				.then((results) => {
-					if (isSubscribed) {
-						const featureResults = spotify.getTracksFeatureAverages(results);
-						setFeatures(featureResults.features);
-						setTempo(featureResults.tempo);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		} else {
-			// Get playlist tracks
-			spotify
-				.getEntirePlaylistFeatures(id)
-				.then((results) => {
-					if (isSubscribed) {
-						const featureResults = spotify.getTracksFeatureAverages(results);
-						setFeatures(featureResults.features);
-						setTempo(featureResults.tempo);
-					}
-				})
-				.catch((err) => {
-					console.log(err);
-				});
+		if (tracks.length === 0) {
+			return undefined;
 		}
+
+		(async () => {
+			const featureResults = await spotify.getTracksFeatureAverages(tracks);
+			console.log(featureResults);
+
+			if (isSubscribed) setFeatures(featureResults);
+		})();
+
+		return () => {
+			isSubscribed = false;
+		};
+	}, [tracks]);
+
+	const onFilterClick = () => {
+		const seedsObject = { artists: [], genres: [], tracks: [] };
+
+		const max = {};
+		const min = {};
+
+		seeds.forEach((seed) => {
+			seedsObject[seed.category].push(seed.id);
+		});
+
+		console.log(filters);
+
+		Object.keys(filters).forEach((key) => {
+			max[`max_${key}`] = filters[key][1];
+			min[`min_${key}`] = filters[key][0];
+		});
+
+		console.log(min);
+		console.log(max);
+
+		(async () => {
+			setTracks(await spotify.getRecommendations(limit, max, min, seedsObject));
+		})();
 	};
-  */
+
+	const onMakePlaylistClick = () => {};
 
 	const classes = useStyles();
 
 	return (
 		<div className={`${classes.container}`}>
 			<FilterForm
+				limit={limit}
+				setLimit={setLimit}
 				filters={filters}
 				setFilters={setFilters}
 				seeds={seeds}
 				setSeeds={setSeeds}
+				onFilterClick={onFilterClick}
+				onMakePlaylistClick={onMakePlaylistClick}
 			/>
 			{features.length > 0 && <FilterAnalysis features={features} />}
-			{tracks.length > 0 && <FilterTracks tracks={tracks} total={total} />}
+			{tracks.length > 0 && <FilterTracks tracks={tracks} />}
 		</div>
 	);
 }

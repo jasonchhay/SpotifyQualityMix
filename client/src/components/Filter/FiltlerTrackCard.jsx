@@ -55,7 +55,7 @@ export default function FiilterTrackCard({
 	const classes = useStyles();
 	return (
 		<div className={classes.container}>
-			<a href={url} target='_blank' noopener='true' noreferrer='true'>
+			<a href={url} target='_blank' rel='noopener noreferrer'>
 				<HoverButton className='image-wrapper'>
 					<img src={image} alt={`${title} Cover Art`} />
 				</HoverButton>

@@ -90,14 +90,25 @@ export const searchArtist = async (query) => {
 
 export const getRecommendations = async (limit, max, min, seeds) => {
 	try {
-		return await spotifyApi.getRecommendations(
+		console.log({
 			limit,
-			max,
-			min,
-			seeds.artists,
-			seeds.genres,
-			seeds.tracks
-		).tracks;
+			...max,
+			...min,
+			seed_artists: seeds.artists.join(','),
+			seed_genres: seeds.genres.join(','),
+			seed_tracks: seeds.tracks.join(','),
+		});
+
+		const response = await spotifyApi.getRecommendations({
+			limit,
+			...max,
+			...min,
+			seed_artists: seeds.artists.join(','),
+			seed_genres: seeds.genres.join(','),
+			seed_tracks: seeds.tracks.join(','),
+		});
+
+		return response.tracks;
 	} catch (err) {
 		console.error(err);
 	}
@@ -121,32 +132,40 @@ export const createPopulatedPlaylist = async (
 	}
 };
 
-export const getTracksFeatureAverages = (tracks) => {
+export const getTracksFeatureAverages = async (tracks) => {
 	// Combine values for all features
 	var featureValues = [];
-	var tempoValue = 0;
+
+	const trackFeatures = (
+		await spotifyApi.getAudioFeaturesForTracks(tracks.map((track) => track.id))
+	).audio_features;
 
 	featureTypes.forEach((feature) => {
 		featureValues = [...featureValues, { ...feature, value: 0 }];
 	});
 
-	tracks.forEach((track) => {
+	trackFeatures.forEach((track) => {
 		if (track) {
 			featureValues.forEach((item) => {
 				item.value += track[item.type];
 			});
-
-			tempoValue += track.tempo;
 		}
 	});
+
+	const totalPopularity = (
+		await spotifyApi.getTracks(tracks.map((track) => track.id))
+	).tracks
+		.map((track) => track.popularity)
+		.reduce((total, currentValue) => {
+			return total + currentValue;
+		});
+	featureValues[0].value = totalPopularity;
 
 	featureValues.forEach((feature) => {
 		feature.value /= tracks.length;
 	});
 
-	tempoValue /= tracks.length;
-
-	return { features: featureValues, tempo: tempoValue };
+	return featureValues;
 };
 
 export const logOut = () => {

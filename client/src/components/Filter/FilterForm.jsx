@@ -1,24 +1,18 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import * as spotify from '../../utils/spotify';
 
 import AppButton from '../layouts/AppButton';
 
-import { Typography, Slider, TextField, Chip } from '@material-ui/core';
+import { Typography, Slider, TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles, withStyles } from '@material-ui/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { FilterSearchResult, FilterSearchChip } from './FilterSearchItems';
+import { FilterSearchResult } from './FilterSearchItems';
 
 import { featureTypes } from '../../utils/variables';
 import colors from '../../utils/colors';
-
-function sleep(delay = 0) {
-	return new Promise((resolve) => {
-		setTimeout(resolve, delay);
-	});
-}
 
 const FilterSlider = withStyles({
 	root: {
@@ -56,6 +50,8 @@ const useStyles = makeStyles({
 });
 
 export default function FilterForm({
+	limit,
+	setLimit,
 	filters,
 	setFilters,
 	seeds,
@@ -63,20 +59,14 @@ export default function FilterForm({
 	onFilterClick,
 	onMakePlaylistClick,
 }) {
-	const [handleChange, setHandleChange] = useState({});
 	const [query, setQuery] = useState('');
 
 	const [genreSeeds, setGenreSeeds] = useState([]);
 
 	const [open, setOpen] = useState(false);
 	const [options, setOptions] = useState({});
-	const loading = open && Object(options).keys;
+	const loading = open && Object.keys(options) === 0;
 
-	const searchGenreSeeds = async (query) => {
-		return genreSeeds.filter((genre) =>
-			genre.name.toLowerCase().includes(query.toLowerCase())
-		);
-	};
 	// Sliders don't let you use target name for now
 	// Need to set a specific handler for every slider
 	useEffect(() => {
@@ -106,7 +96,10 @@ export default function FilterForm({
 		(async () => {
 			const artists = spotify.searchArtist(query);
 			const tracks = spotify.searchTrack(query);
-			const genres = searchGenreSeeds(query);
+			const genres = (async () =>
+				genreSeeds.filter((genre) =>
+					genre.name.toLowerCase().includes(query.toLowerCase())
+				))();
 
 			if (isSubscribed) {
 				setOptions({
@@ -120,7 +113,7 @@ export default function FilterForm({
 		return () => {
 			isSubscribed = false;
 		};
-	}, [query]);
+	}, [genreSeeds, query]);
 
 	useEffect(() => {
 		if (!open) {
@@ -201,19 +194,18 @@ export default function FilterForm({
 			/>
 
 			<div>
-				{featureTypes.map(({ type, color }) => {
+				{featureTypes.map(({ type, color, range, step }) => {
 					return (
 						<div key={type}>
 							<Typography id='range-slider' gutterBottom>
 								{type.charAt(0).toUpperCase() + type.substring(1)}
 							</Typography>
 							<FilterSlider
-								min={0}
-								max={100}
-								value={[0, 100]}
-								step={0.1}
-								name={type}
+								min={range[0]}
+								max={range[1]}
 								value={filters[type]}
+								step={step}
+								name={type}
 								onChange={(event, newValue) =>
 									onSliderChange(event, newValue, type)
 								}
@@ -225,7 +217,17 @@ export default function FilterForm({
 					);
 				})}
 			</div>
-			<AppButton title='Filter' onClick={onFilterClick} />
+			<TextField
+				value={limit}
+				onChange={(event) => setLimit(event.target.value)}
+				label='Enter number of tracks'
+			/>
+
+			<AppButton
+				title='Filter'
+				onClick={onFilterClick}
+				disabled={seeds.length == 0}
+			/>
 			<AppButton
 				title='Make New Playlist'
 				backgroundColor='#0FE2FF'

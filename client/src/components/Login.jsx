@@ -1,8 +1,5 @@
 import React from 'react';
-
 import AppButton from './layouts/AppButton';
-
-import { githubRepo } from '../utils/variables';
 
 function Login(props) {
 	return (

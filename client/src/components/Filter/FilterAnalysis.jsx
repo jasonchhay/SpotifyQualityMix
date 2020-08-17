@@ -10,7 +10,8 @@ const featureClasses = makeStyles({
 		'& .bar': {
 			height: '15px',
 			marginBottom: '5px',
-			transition: 'width 1s ease-in',
+			width: '0',
+			transition: 'width 1s ease-in-out',
 		},
 	},
 });
@@ -36,25 +37,23 @@ export default function FilterAnalysis({ features }) {
 		<div className='playlist-info-features'>
 			<h2>Qualities</h2>
 			{features.length > 0 &&
-				features.map(
-					({ type, value, color }) =>
-						type !== 'tempo' && (
-							<div key={type} className={classes.barGraph}>
-								<h4>
-									{type} ({`${(value * 100).toFixed(2)}%`})
-								</h4>
-								<BootstrapTooltip title={`${type}: ${value}`} placement='top'>
-									<div
-										className='bar'
-										style={{
-											width: `${100 * value}%`,
-											backgroundColor: color,
-										}}
-									/>
-								</BootstrapTooltip>
-							</div>
-						)
-				)}
+				features.map(({ type, value, color, range }) => (
+					<div key={type} className={classes.barGraph}>
+						<h4>
+							{type}{' '}
+							{type === 'tempo' ? `${Math.ceil(value)} BPM` : value.toFixed(3)}
+						</h4>
+						<BootstrapTooltip title={`${type}: ${value}`} placement='top'>
+							<div
+								className='bar'
+								style={{
+									width: `${100 * (value / range[1])}%`,
+									backgroundColor: color,
+								}}
+							/>
+						</BootstrapTooltip>
+					</div>
+				))}
 		</div>
 	);
 }

@@ -83,7 +83,7 @@ export default function Navbar({ loggedIn }) {
 					console.log(err);
 				});
 		}
-	}, []);
+	}, [loggedIn]);
 
 	const handleLogOut = () => {
 		spotify.logOut();

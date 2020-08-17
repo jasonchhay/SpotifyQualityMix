@@ -1,8 +1,7 @@
 import React from 'react';
-import * as spotify from '../../utils/spotify';
 
 import { Container } from '@material-ui/core';
-import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';

@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FilterTrackCard from './FiltlerTrackCard';
 
 import { Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+// import { makeStyles } from '@material-ui/styles';
 
-export default function FilterTracks({ tracks, total }) {
+export default function FilterTracks({ tracks }) {
 	return (
 		<div>
 			<h2>Tracks</h2>
 			<Grid container space={1}>
 				{tracks.length > 0 &&
-					tracks.map(({ track }) => (
+					tracks.map((track) => (
 						<Grid item key={track.id}>
 							<FilterTrackCard
 								title={track.name}
