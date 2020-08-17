@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AppButton from './AppButton';
+import AppButton from './layouts/AppButton';
 
 import { githubRepo } from '../utils/variables';
 

@@ -8,11 +8,11 @@ import { accessTokenKey, refreshTokenKey } from '../utils/variables';
 
 import AppContainer from './layouts/AppContainer';
 import Login from './Login';
-import Playlists from './Playlists';
-import Tracks from './Tracks';
+import Filter from './Filter/Filter';
 
 function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	useLayoutEffect(() => {
 		const token = spotify.getAccessToken();
@@ -23,36 +23,40 @@ function App() {
 		} else {
 			setLoggedIn(false);
 		}
+
+		setLoading(false);
 	}, []);
 	// Check if authentication token exists or not
 
 	return (
 		<Router>
-			<AppContainer loggedIn={loggedIn}>
-				<Route exact path='/' component={loggedIn ? Playlists : Login} />
-				<Route exact path='/tracks/:id' component={Tracks} />
-				<Route
-					exact
-					path='/login'
-					component={() => {
-						window.location.replace('http://localhost:8888/api/login');
-						return null;
-					}}
-				/>
-				<Route
-					exact
-					path='/redirect'
-					component={() => {
-						const accessToken = getHashParams().access_token;
-						const refreshToken = getHashParams().refresh_token;
+			{!loading && (
+				<AppContainer loggedIn={loggedIn}>
+					<Route exact path='/' component={loggedIn ? Filter : Login} />
+				</AppContainer>
+			)}
 
-						localStorage[accessTokenKey] = accessToken;
-						localStorage[refreshToken] = refreshToken;
+			<Route
+				exact
+				path='/login'
+				component={() => {
+					window.location.replace('http://localhost:8888/api/login');
+					return null;
+				}}
+			/>
+			<Route
+				exact
+				path='/redirect'
+				component={() => {
+					const accessToken = getHashParams().access_token;
+					const refreshToken = getHashParams().refresh_token;
 
-						return <Redirect to='/' />;
-					}}
-				/>
-			</AppContainer>
+					localStorage[accessTokenKey] = accessToken;
+					localStorage[refreshToken] = refreshToken;
+
+					return <Redirect to='/' />;
+				}}
+			/>
 		</Router>
 	);
 }

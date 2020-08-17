@@ -1,8 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import HoverButton from './HoverButton';
+import HoverButton from '../layouts/HoverButton';
 
-import colors from '../utils/colors';
+import colors from '../../utils/colors';
 
 const useStyles = makeStyles({
 	container: {
@@ -46,10 +46,10 @@ const useStyles = makeStyles({
 	},
 });
 
-function TrackCard({
+export default function FiilterTrackCard({
 	title,
 	url,
-	image = require('../images/default_playlist.png'),
+	image = require('../../images/default_playlist.png'),
 	artist,
 }) {
 	const classes = useStyles();
@@ -65,5 +65,3 @@ function TrackCard({
 		</div>
 	);
 }
-
-export default TrackCard;

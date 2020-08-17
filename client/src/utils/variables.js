@@ -6,7 +6,7 @@ module.exports = {
 	featureTypes: [
 		{
 			type: 'popularity',
-			color: '#FFA41C',
+			color: 'rgb(255, 108, 184)',
 			description:
 				'The popularity of a track, based on the total number and recency of plays.',
 			labels: ['Very obscure', 'Very popular'],
@@ -20,7 +20,7 @@ module.exports = {
 		},
 		{
 			type: 'danceability',
-			color: '#FF658A',
+			color: 'rgb(255, 59, 106)',
 			description:
 				'How suitable a track is for dancing, based on tempo, rhythm, and beat strength.',
 			labels: ['Not danceable', 'Very danceable'],
@@ -60,7 +60,7 @@ module.exports = {
 		},
 		{
 			type: 'tempo',
-			color: '#fff',
+			color: '#000',
 			description: 'How upbeat the track is.',
 			labels: ['Slow', 'Fast'],
 		},

@@ -28,9 +28,28 @@ export const setAccessToken = (token) => {
 	spotifyApi.setAccessToken(token);
 };
 
-export const getGenreSeeds = async (query) => {
+export const getProfileName = async () => {
 	try {
-		return await spotifyApi.getGenreSeeds().genres;
+		const result = await spotifyApi.getMe();
+		return result.display_name;
+	} catch (err) {
+		console.error(err);
+		logOut();
+	}
+};
+
+export const getGenreSeeds = async () => {
+	try {
+		const results = (await spotifyApi.getAvailableGenreSeeds()).genres;
+
+		return results.map((genre) => ({
+			category: 'genres',
+			id: genre,
+			name: genre
+				.split('-')
+				.map((word) => word.charAt(0).toUpperCase() + word.substring(1))
+				.join(' '),
+		}));
 	} catch (err) {
 		console.error(err);
 	}
@@ -38,7 +57,16 @@ export const getGenreSeeds = async (query) => {
 
 export const searchTrack = async (query) => {
 	try {
-		return await (await spotifyApi.searchTracks(query)).tracks;
+		const results = await (await spotifyApi.searchTracks(query, { limit: 10 }))
+			.tracks.items;
+
+		return results.map((track) => ({
+			category: 'tracks',
+			id: track.id,
+			name: track.name,
+			artist: track.artists.map((artist) => artist.name),
+			image: track.album.images.length > 0 && track.album.images[0].url,
+		}));
 	} catch (err) {
 		console.error(err);
 	}
@@ -46,7 +74,15 @@ export const searchTrack = async (query) => {
 
 export const searchArtist = async (query) => {
 	try {
-		return await spotifyApi.searchArtists(query).artists;
+		const results = (await spotifyApi.searchArtists(query, { limit: 5 }))
+			.artists.items;
+
+		return results.map((artist) => ({
+			category: 'artists',
+			id: artist.id,
+			name: artist.name,
+			image: artist.images.length > 0 && artist.images[0].url,
+		}));
 	} catch (err) {
 		console.error(err);
 	}
@@ -67,30 +103,50 @@ export const getRecommendations = async (limit, max, min, seeds) => {
 	}
 };
 
-export const createPlaylist = async (
-	name,
-	public,
-	collaborative,
-	description
+export const createPopulatedPlaylist = async (
+	{ name, isPublic, collaborative, description },
+	uris
 ) => {
 	try {
-		return await spotifyApi.createPlaylist(
+		const result = await spotifyApi.createPlaylist(
 			name,
-			public,
+			isPublic,
 			collaborative,
 			description
 		);
+
+		return await spotifyApi.addTracksToPlaylist(result.id, uris);
 	} catch (err) {
 		console.error(err);
 	}
 };
 
-export const addTracksToPlaylist = async (uris) => {
-	try {
-		return await spotifyApi.addTracksToPlaylist(uris);
-	} catch (err) {
-		console.error(err);
-	}
+export const getTracksFeatureAverages = (tracks) => {
+	// Combine values for all features
+	var featureValues = [];
+	var tempoValue = 0;
+
+	featureTypes.forEach((feature) => {
+		featureValues = [...featureValues, { ...feature, value: 0 }];
+	});
+
+	tracks.forEach((track) => {
+		if (track) {
+			featureValues.forEach((item) => {
+				item.value += track[item.type];
+			});
+
+			tempoValue += track.tempo;
+		}
+	});
+
+	featureValues.forEach((feature) => {
+		feature.value /= tracks.length;
+	});
+
+	tempoValue /= tracks.length;
+
+	return { features: featureValues, tempo: tempoValue };
 };
 
 export const logOut = () => {
