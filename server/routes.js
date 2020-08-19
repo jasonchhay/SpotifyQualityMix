@@ -4,8 +4,8 @@ var router = express.Router();
 var querystring = require('querystring');
 var axios = require('axios');
 
-var client_id = '9f52bf78e99142d0985d7027ddadc584'; // Your client id
-var client_secret = 'a4529b419153405292d05493e287e66d'; // Your secret
+var client_id = process.env.CLIENT_ID; // Your client id
+var client_secret = process.env.CLIENT_SECRET; // Your secret
 
 var REDIRECT_URI = 'http://localhost:8888/api/callback'; // Your redirect uri
 var FRONTEND_URI = 'http://localhost:3000/redirect';
