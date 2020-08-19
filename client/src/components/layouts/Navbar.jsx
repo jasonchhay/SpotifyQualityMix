@@ -3,10 +3,10 @@ import React, { useState, useLayoutEffect } from 'react';
 import { Button } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAdjust } from '@fortawesome/free-solid-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 import * as spotify from '../../utils/spotify';
-
+import { githubRepo } from '../../utils/variables';
 import colors from '../../utils/colors';
 
 const useStyles = makeStyles({
@@ -16,7 +16,10 @@ const useStyles = makeStyles({
 		height: '2rem',
 		display: 'flex',
 		justifyContent: 'space-between',
+		alignItems: 'center',
 		padding: '1rem 0 1rem',
+		zIndex: '15',
+		position: 'relative',
 	},
 
 	profile: (props) => ({
@@ -30,13 +33,22 @@ const useStyles = makeStyles({
 		},
 	}),
 
-	darkModeButton: {
-		backgroundColor: 'inherit',
-		border: 'none',
+	github: {
 		color: colors.white,
-		fontSize: '1.5rem',
+		border: 'none',
+		backgroundColor: 'inherit',
+		marginLeft: '.5rem',
+		fontSize: '2.5rem',
 		cursor: 'pointer',
-		marginLeft: '1rem',
+		transition: '.2s ease-in',
+
+		'&:hover': {
+			color: '#bbb',
+		},
+
+		'&:active': {
+			color: '#999',
+		},
 	},
 });
 
@@ -75,7 +87,7 @@ export default function Navbar({ loggedIn }) {
 	useLayoutEffect(() => {
 		if (loggedIn) {
 			spotify
-				.getProfileName()
+				.setProfile()
 				.then((result) => {
 					setDisplayName(result);
 				})
@@ -93,8 +105,12 @@ export default function Navbar({ loggedIn }) {
 	const classes = useStyles({ loggedIn });
 	return (
 		<div className={`${classes.container}`}>
-			<button className={`${classes.darkModeButton}`}>
-				<FontAwesomeIcon icon={faAdjust} />
+			<button
+				href={githubRepo}
+				className={`${classes.github}`}
+				target='_blank'
+				rel='noopener noreferrer'>
+				<FontAwesomeIcon icon={faGithub} />
 			</button>
 
 			{displayName && (

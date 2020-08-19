@@ -4,7 +4,17 @@ import * as spotify from '../../utils/spotify';
 
 import AppButton from '../layouts/AppButton';
 
-import { Typography, Slider, TextField } from '@material-ui/core';
+import {
+	Typography,
+	Slider,
+	TextField,
+	Box,
+	Zoom,
+	Tooltip,
+	IconButton,
+} from '@material-ui/core';
+import { Info } from '@material-ui/icons';
+
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles, withStyles } from '@material-ui/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -58,6 +68,7 @@ export default function FilterForm({
 	setSeeds,
 	onFilterClick,
 	onMakePlaylistClick,
+	tracks,
 }) {
 	const [query, setQuery] = useState('');
 
@@ -176,8 +187,9 @@ export default function FilterForm({
 				renderInput={(params) => (
 					<TextField
 						{...params}
-						label='Enter a track, artist, or genre to use a seed (Up to 5 total for all)'
+						label='Enter a track, artist, or genre to base this mix off of (Up to 5 total for all)'
 						variant='outlined'
+						required
 						InputProps={{
 							...params.InputProps,
 							endAdornment: (
@@ -193,13 +205,27 @@ export default function FilterForm({
 				)}
 			/>
 
-			<div>
-				{featureTypes.map(({ type, color, range, step }) => {
+			<Box mt={4} mb={2} p={1.5}>
+				{featureTypes.map(({ type, color, range, step, description }) => {
 					return (
 						<div key={type}>
-							<Typography id='range-slider' gutterBottom>
-								{type.charAt(0).toUpperCase() + type.substring(1)}
-							</Typography>
+							<Box display='inline-flex'>
+								<Typography variant='h6' id='range-slider'>
+									{type.charAt(0).toUpperCase() + type.substring(1)}
+								</Typography>
+							</Box>
+							<Box
+								display='flex'
+								justifyContent='space-between'
+								alignItems='flex-end'>
+								<Typography variant='body2'>{description}</Typography>
+								<Typography variant='subtitle1'>
+									{type !== 'tempo'
+										? `${filters[type][0].toFixed(2)}
+                     - ${filters[type][1].toFixed(2)}`
+										: `${filters[type][0]} - ${filters[type][1]} BPM`}
+								</Typography>
+							</Box>
 							<FilterSlider
 								min={range[0]}
 								max={range[1]}
@@ -216,23 +242,45 @@ export default function FilterForm({
 						</div>
 					);
 				})}
-			</div>
-			<TextField
-				value={limit}
-				onChange={(event) => setLimit(event.target.value)}
-				label='Enter number of tracks'
-			/>
+			</Box>
 
-			<AppButton
-				title='Filter'
-				onClick={onFilterClick}
-				disabled={seeds.length == 0}
-			/>
-			<AppButton
-				title='Make New Playlist'
-				backgroundColor='#0FE2FF'
-				onClick={onMakePlaylistClick}
-			/>
+			<Box display='flex' justifyContent='space-between'>
+				<TextField
+					value={limit}
+					onChange={(event) => {
+						var value = event.target.value;
+
+						if (value > 100) {
+							value = 100;
+						} else if (value < 1) {
+							value = 1;
+						}
+
+						setLimit(value);
+					}}
+					label='Enter number of tracks (1-100)'
+					variant='outlined'
+					margin='dense'
+					style={{ marginTop: 0, width: '12vw' }}
+					type='number'
+					InputProps={{ inputProps: { min: 1, max: 100 } }}
+				/>
+				<Box height='min-content'>
+					<AppButton
+						title='Filter'
+						onClick={onFilterClick}
+						disabled={seeds.length === 0}
+						style={{ marginRight: '1rem' }}
+					/>
+					<AppButton
+						title='Make New Playlist'
+						backgroundColor='#0FE2FF'
+						onClick={onMakePlaylistClick}
+						disabled={tracks.length === 0}
+						marginleft={5}
+					/>
+				</Box>
+			</Box>
 		</div>
 	);
 }

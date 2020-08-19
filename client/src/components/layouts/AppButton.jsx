@@ -9,11 +9,16 @@ const StyledButton = withStyles({
 		backgroundColor: colors.black,
 		color: colors.white,
 		padding: '.5rem 1.25rem',
-		marginRight: '1.5rem',
 		borderRadius: '2rem',
 		transition: '.2s ease-in',
 		position: 'relative',
 		overflow: 'hidden',
+	},
+	disabled: {
+		color: `${colors.white} !important`,
+	},
+	label: {
+		fontWeight: 700,
 	},
 })(Button);
 
@@ -27,23 +32,24 @@ const useStyles = makeStyles({
 			backgroundColor: props.backgroundColor || colors.black,
 		},
 
-		'& .overlay': {
+		'& .overlay': (props) => ({
 			position: 'absolute',
 			top: '0',
 			left: '0',
 			right: '0',
 			bottom: '0',
 			transition: '.2s ease-in',
+			backgroundColor: props.disabled ? 'rgba(190, 193, 193, 0.5)' : 'inherit',
 
 			'&:hover': {
 				backgroundColor: 'hsla(0, 0%, 0%, 0.1)',
 			},
-		},
+		}),
 	}),
 });
 
 function AppButton({ title, color, backgroundColor, border, ...otherProps }) {
-	const classes = useStyles({ color, backgroundColor, border });
+	const classes = useStyles({ color, backgroundColor, border, ...otherProps });
 
 	return (
 		<StyledButton className={`${classes.container}`} {...otherProps}>

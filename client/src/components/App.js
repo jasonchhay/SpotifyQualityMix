@@ -9,6 +9,13 @@ import { accessTokenKey } from '../utils/variables';
 import AppContainer from './layouts/AppContainer';
 import Login from './Login';
 import Filter from './Filter/Filter';
+import { createMuiTheme, ThemeProvider, CssBaseline } from '@material-ui/core';
+
+const theme = createMuiTheme({
+	typography: {
+		fontFamily: 'DM Sans, Roboto, Arial',
+	},
+});
 
 function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
@@ -29,35 +36,37 @@ function App() {
 	// Check if authentication token exists or not
 
 	return (
-		<Router>
-			{!loading && (
-				<AppContainer loggedIn={loggedIn}>
-					<Route exact path='/' component={loggedIn ? Filter : Login} />
-				</AppContainer>
-			)}
+		<ThemeProvider theme={theme}>
+			<Router>
+				{!loading && (
+					<AppContainer loggedIn={loggedIn}>
+						<Route exact path='/' component={loggedIn ? Filter : Login} />
+					</AppContainer>
+				)}
 
-			<Route
-				exact
-				path='/login'
-				component={() => {
-					window.location.replace('http://localhost:8888/api/login');
-					return null;
-				}}
-			/>
-			<Route
-				exact
-				path='/redirect'
-				component={() => {
-					const accessToken = getHashParams().access_token;
-					const refreshToken = getHashParams().refresh_token;
+				<Route
+					exact
+					path='/login'
+					component={() => {
+						window.location.replace('http://localhost:8888/api/login');
+						return null;
+					}}
+				/>
+				<Route
+					exact
+					path='/redirect'
+					component={() => {
+						const accessToken = getHashParams().access_token;
+						const refreshToken = getHashParams().refresh_token;
 
-					localStorage[accessTokenKey] = accessToken;
-					localStorage[refreshToken] = refreshToken;
+						localStorage[accessTokenKey] = accessToken;
+						localStorage[refreshToken] = refreshToken;
 
-					return <Redirect to='/' />;
-				}}
-			/>
-		</Router>
+						return <Redirect to='/' />;
+					}}
+				/>
+			</Router>
+		</ThemeProvider>
 	);
 }
 

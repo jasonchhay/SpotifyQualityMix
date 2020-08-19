@@ -2,13 +2,23 @@ import React, { useEffect } from 'react';
 import FilterTrackCard from './FiltlerTrackCard';
 
 import { Grid } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
+
+import colors from '../../utils/colors';
 // import { makeStyles } from '@material-ui/styles';
+
+// 		background: `linear-gradient(${colors.black}, #000)`,
+const TracksGrid = withStyles({
+	root: {
+		background: `linear-gradient(${colors.black}, #000)`,
+	},
+})(Grid);
 
 export default function FilterTracks({ tracks }) {
 	return (
 		<div>
 			<h2>Tracks</h2>
-			<Grid container space={1}>
+			<TracksGrid>
 				{tracks.length > 0 &&
 					tracks.map((track) => (
 						<Grid item key={track.id}>
@@ -24,7 +34,7 @@ export default function FilterTracks({ tracks }) {
 							/>
 						</Grid>
 					))}
-			</Grid>
+			</TracksGrid>
 		</div>
 	);
 }

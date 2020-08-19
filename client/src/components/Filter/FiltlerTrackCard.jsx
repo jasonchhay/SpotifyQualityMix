@@ -1,48 +1,40 @@
 import React from 'react';
+import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+
 import HoverButton from '../layouts/HoverButton';
 
 import colors from '../../utils/colors';
 
 const useStyles = makeStyles({
 	container: {
-		width: '10vw',
-		paddingBottom: '1rem',
-		paddingRight: '1.5rem',
-		textAlign: 'center',
+		width: '100%',
+		borderBottom: `1px ${colors.darkGray} solid`,
 
-		'& a': {
+		'& .content': {
+			textAlign: 'left',
+			width: '100%',
 			textDecoration: 'none',
 			color: colors.black,
+			padding: '1rem',
 
 			'& .image-wrapper': {
-				padding: 0,
-				height: '10vw',
 				overflow: 'hidden',
-				boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
-				borderRadius: 0,
+				width: '4vw',
+				height: '4vw',
+				paddingRight: '1rem',
 
-				'& img': {
+				'& .album-art': {
 					width: '100%',
 				},
-
-				'& .track-title': {
-					marginTop: '1rem',
-					color: colors.black,
-					textDecoration: 'none',
-				},
-			},
-
-			'& .track-title': {
-				marginTop: '.5rem',
-				marginBottom: '0',
-			},
-
-			'& .artist': {
-				marginTop: '0',
-				marginBottom: '.25rem',
 			},
 		},
+	},
+
+	text: {
+		color: colors.white,
+		lineHeight: '1',
+		marginBottom: '.5rem',
 	},
 });
 
@@ -55,13 +47,38 @@ export default function FiilterTrackCard({
 	const classes = useStyles();
 	return (
 		<div className={classes.container}>
-			<a href={url} target='_blank' rel='noopener noreferrer'>
-				<HoverButton className='image-wrapper'>
-					<img src={image} alt={`${title} Cover Art`} />
-				</HoverButton>
-				<h4 className='track-title'>{title}</h4>
-				<h5 className='artist'>{artist}</h5>
-			</a>
+			<HoverButton
+				hoverColor='hsla(0, 0%, 100%, .2)'
+				href={url}
+				target='_blank'
+				rel='noopener noreferrer'>
+				<div className='content'>
+					<Box display='flex'>
+						<div className='image-wrapper'>
+							<img
+								className='album-art'
+								src={image}
+								alt={`${title} Cover Art`}
+							/>
+						</div>
+						<Box textAlign='left' lineHeight='0'>
+							<Typography
+								variant='h6'
+								className='track-title'
+								gutterBottom
+								className={classes.text}>
+								{title}
+							</Typography>
+							<Typography
+								variant='subtitle1'
+								className='artist'
+								className={classes.text}>
+								{artist}
+							</Typography>
+						</Box>
+					</Box>
+				</div>
+			</HoverButton>
 		</div>
 	);
 }

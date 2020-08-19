@@ -35,7 +35,7 @@ export default function FilterAnalysis({ features }) {
 
 	return (
 		<div className='playlist-info-features'>
-			<h2>Qualities</h2>
+			<h2>Analysis</h2>
 			{features.length > 0 &&
 				features.map(({ type, value, color, range }) => (
 					<div key={type} className={classes.barGraph}>

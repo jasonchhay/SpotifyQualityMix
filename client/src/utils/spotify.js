@@ -1,5 +1,10 @@
 import SpotifyWebApi from 'spotify-web-api-js';
-import { accessTokenKey, refreshTokenKey, featureTypes } from './variables';
+import {
+	accessTokenKey,
+	refreshTokenKey,
+	userIdKey,
+	featureTypes,
+} from './variables';
 import axios from 'axios';
 
 const spotifyApi = new SpotifyWebApi();
@@ -28,9 +33,11 @@ export const setAccessToken = (token) => {
 	spotifyApi.setAccessToken(token);
 };
 
-export const getProfileName = async () => {
+export const setProfile = async () => {
 	try {
 		const result = await spotifyApi.getMe();
+
+		localStorage[userIdKey] = result.id;
 		return result.display_name;
 	} catch (err) {
 		console.error(err);
@@ -115,16 +122,19 @@ export const getRecommendations = async (limit, max, min, seeds) => {
 };
 
 export const createPopulatedPlaylist = async (
-	{ name, isPublic, collaborative, description },
+	name,
+	isPublic,
+	collaborative,
+	description,
 	uris
 ) => {
 	try {
-		const result = await spotifyApi.createPlaylist(
+		const result = await spotifyApi.createPlaylist(localStorage.userId, {
 			name,
-			isPublic,
+			public: isPublic,
 			collaborative,
-			description
-		);
+			description,
+		});
 
 		return await spotifyApi.addTracksToPlaylist(result.id, uris);
 	} catch (err) {
@@ -171,5 +181,7 @@ export const getTracksFeatureAverages = async (tracks) => {
 export const logOut = () => {
 	localStorage[accessTokenKey] = '';
 	localStorage[refreshTokenKey] = '';
+	localStorage[userIdKey] = '';
+
 	window.location.href = '/';
 };

@@ -7,7 +7,9 @@ const useStyles = makeStyles({
 		padding: 0,
 		position: 'relative',
 		overflow: 'hidden',
+		textTransform: 'none',
 		borderRadius: 0,
+		width: '100%',
 	},
 
 	overlay: (props) => ({
