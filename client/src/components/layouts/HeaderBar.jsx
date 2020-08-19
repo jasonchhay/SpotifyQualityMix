@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Box, makeStyles, TableCell } from '@material-ui/core';
+import { Grid, Box } from '@material-ui/core';
 import { featureTypes } from '../../utils/variables';
 
 function HeaderBar(props) {

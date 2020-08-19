@@ -9,7 +9,7 @@ import { accessTokenKey } from '../utils/variables';
 import AppContainer from './layouts/AppContainer';
 import Login from './Login';
 import Filter from './Filter/Filter';
-import { createMuiTheme, ThemeProvider, CssBaseline } from '@material-ui/core';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 
 const theme = createMuiTheme({
 	typography: {

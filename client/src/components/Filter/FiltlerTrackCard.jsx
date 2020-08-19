@@ -64,15 +64,13 @@ export default function FiilterTrackCard({
 						<Box textAlign='left' lineHeight='0'>
 							<Typography
 								variant='h6'
-								className='track-title'
-								gutterBottom
-								className={classes.text}>
+								className={`track-title ${classes.text}`}
+								gutterBottom>
 								{title}
 							</Typography>
 							<Typography
 								variant='subtitle1'
-								className='artist'
-								className={classes.text}>
+								className={`artist ${classes.text}`}>
 								{artist}
 							</Typography>
 						</Box>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Box, CircularProgress, Typography } from '@material-ui/core';
-import { withStyles, makeStyles } from '@material-ui/styles';
+import { Box, CircularProgress, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import { green } from '@material-ui/core/colors';
 import CheckIcon from '@material-ui/icons/Check';
 

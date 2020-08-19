@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import FilterTrackCard from './FiltlerTrackCard';
 
 import { Grid } from '@material-ui/core';

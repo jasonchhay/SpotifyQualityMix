@@ -4,16 +4,7 @@ import * as spotify from '../../utils/spotify';
 
 import AppButton from '../layouts/AppButton';
 
-import {
-	Typography,
-	Slider,
-	TextField,
-	Box,
-	Zoom,
-	Tooltip,
-	IconButton,
-} from '@material-ui/core';
-import { Info } from '@material-ui/icons';
+import { Typography, Slider, TextField, Box } from '@material-ui/core';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles, withStyles } from '@material-ui/styles';

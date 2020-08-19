@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import * as spotify from '../../utils/spotify';
 
-import { makeStyles } from '@material-ui/styles';
-import { green } from '@material-ui/core/colors';
 import {
-	CircularProgress,
 	Dialog,
 	DialogTitle,
 	DialogActions,
@@ -16,14 +13,6 @@ import {
 	Checkbox,
 } from '@material-ui/core';
 import Loading from '../layouts/Loading';
-
-const useStyles = makeStyles((theme) => ({
-	fabProgress: {
-		color: green[500],
-
-		zIndex: 1,
-	},
-}));
 
 function FilterMakePlaylistForm({ open, setOpen, tracks, seeds }) {
 	const [playlistForm, setPlayListForm] = useState({
@@ -75,8 +64,6 @@ function FilterMakePlaylistForm({ open, setOpen, tracks, seeds }) {
 			}
 		})();
 	};
-
-	const classes = useStyles();
 
 	return (
 		<Dialog

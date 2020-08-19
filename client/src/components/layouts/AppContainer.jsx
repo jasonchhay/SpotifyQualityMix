@@ -5,8 +5,6 @@ import { makeStyles } from '@material-ui/styles';
 
 import Navbar from './Navbar';
 
-import colors from '../../utils/colors';
-
 const useStyles = makeStyles({
 	container: {
 		padding: '2rem 0 5rem',

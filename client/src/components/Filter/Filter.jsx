@@ -3,8 +3,6 @@ import * as spotify from '../../utils/spotify';
 import { makeStyles, withStyles } from '@material-ui/styles';
 import { featureTypes } from '../../utils/variables';
 
-import AppButton from '../layouts/AppButton';
-
 import { Box, CircularProgress, Grid } from '@material-ui/core';
 
 import FilterForm from './FilterForm';

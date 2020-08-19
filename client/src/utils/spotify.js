@@ -5,7 +5,7 @@ import {
 	userIdKey,
 	featureTypes,
 } from './variables';
-import axios from 'axios';
+// import axios from 'axios';
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -13,6 +13,7 @@ export const getAccessToken = () => {
 	return localStorage[accessTokenKey];
 };
 
+/*
 const getRefreshToken = () => {
 	return localStorage[refreshTokenKey];
 };
@@ -28,6 +29,7 @@ const refreshToken = async () => {
 			console.error(err);
 		});
 };
+*/
 
 export const setAccessToken = (token) => {
 	spotifyApi.setAccessToken(token);
