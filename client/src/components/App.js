@@ -22,6 +22,13 @@ function App() {
 	const [loading, setLoading] = useState(true);
 
 	useLayoutEffect(() => {
+		const params = getHashParams();
+
+		if (params.accessToken && params.refreshToken) {
+			localStorage[accessTokenKey] = accessToken;
+			localStorage[refreshToken] = refreshToken;
+		}
+
 		const token = spotify.getAccessToken();
 
 		if (token) {
@@ -43,19 +50,6 @@ function App() {
 						<Route exact path='/' component={loggedIn ? Filter : Login} />
 					</AppContainer>
 				)}
-				<Route
-					exact
-					path='/redirect'
-					component={() => {
-						const accessToken = getHashParams().access_token;
-						const refreshToken = getHashParams().refresh_token;
-
-						localStorage[accessTokenKey] = accessToken;
-						localStorage[refreshToken] = refreshToken;
-
-						return <Redirect to='/' />;
-					}}
-				/>
 			</Router>
 		</ThemeProvider>
 	);
