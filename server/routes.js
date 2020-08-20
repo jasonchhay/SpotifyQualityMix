@@ -9,8 +9,9 @@ require('dotenv').config();
 var client_id = process.env.CLIENT_ID; // Your client id
 var client_secret = process.env.CLIENT_SECRET; // Your secret
 
-var CALLBACK_URI = process.env.CALLBACK_URI || 'http://localhost:8888/callback'; // Your redirect uri
-var FRONTEND_URI = process.env.FRONTEND_URI || 'http://localhost:3000';
+var CALLBACK_URI =
+	process.env.CALLBACK_URI || 'http://localhost:8888/callback/'; // Your redirect uri
+var FRONTEND_URI = process.env.FRONTEND_URI || 'http://localhost:3000/';
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
@@ -69,7 +70,7 @@ router.get('/callback', function (req, res) {
 
 	if (state === null || state !== storedState) {
 		res.redirect(
-			`${FRONTEND_URI}/#${querystring.stringify({
+			`${FRONTEND_URI}#${querystring.stringify({
 				error: 'state_mismatch',
 			})}`
 		);
@@ -102,15 +103,17 @@ router.get('/callback', function (req, res) {
 
 				// we can also pass the token to the browser to make requests from there
 				res.redirect(
-					`${FRONTEND_URI}/#${querystring.stringify({
+					`${FRONTEND_URI}#${querystring.stringify({
 						access_token: access_token,
 						refresh_token: refresh_token,
 					})}`
 				);
 			})
 			.catch((error) => {
+				console.log(error);
+
 				res.redirect(
-					`${FRONTEND_URI}/#${querystring.stringify({
+					`${FRONTEND_URI}#${querystring.stringify({
 						error: 'invalid_token',
 					})}`
 				);
