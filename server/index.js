@@ -8,7 +8,7 @@ const app = express();
 app.use(cors()).use(cookieParser());
 
 // Define Routes
-app.use('/api', require('./routes'));
+app.use('/', require('./routes'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

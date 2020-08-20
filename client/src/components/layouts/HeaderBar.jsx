@@ -6,7 +6,7 @@ function HeaderBar(props) {
 	return (
 		<Grid container>
 			{featureTypes.map(({ color }) => (
-				<Grid item xs>
+				<Grid item xs key={color}>
 					<Box bgcolor={color} height={12} />
 				</Grid>
 			))}

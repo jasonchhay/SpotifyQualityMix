@@ -18,7 +18,7 @@ const LoginText = withStyles({
 function Login(props) {
 	return (
 		<Box paddingTop={'5rem'}>
-			<LoginText variant='h1'>QualityMix</LoginText>
+			<LoginText variant='h1'>QualityMix for Spotify</LoginText>
 			<HeaderBar />
 			<LoginText variant='h4'>
 				Create a playlist based on your favorite artists, tracks, and genres
@@ -29,7 +29,11 @@ function Login(props) {
 			<AppButton
 				title='Login to Spotify'
 				backgroundColor='#1DB954'
-				href='/login'
+				href={
+					process.env.NODE_ENV !== 'production'
+						? 'http://localhost:8888/login'
+						: 'https://spotify-quality-mix.herokuapp.com/login'
+				}
 			/>
 		</Box>
 	);

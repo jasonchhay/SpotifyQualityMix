@@ -43,15 +43,6 @@ function App() {
 						<Route exact path='/' component={loggedIn ? Filter : Login} />
 					</AppContainer>
 				)}
-
-				<Route
-					exact
-					path='/login'
-					component={() => {
-						window.location.replace('http://localhost:8888/api/login');
-						return null;
-					}}
-				/>
 				<Route
 					exact
 					path='/redirect'

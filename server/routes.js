@@ -4,11 +4,13 @@ var router = express.Router();
 var querystring = require('querystring');
 var axios = require('axios');
 
+require('dotenv').config();
+
 var client_id = process.env.CLIENT_ID; // Your client id
 var client_secret = process.env.CLIENT_SECRET; // Your secret
 
-var REDIRECT_URI = 'http://localhost:8888/api/callback'; // Your redirect uri
-var FRONTEND_URI = 'http://localhost:3000/redirect';
+var CALLBACK_URI = process.env.CALLBACK_URI || 'http://localhost:8888/callback'; // Your redirect uri
+var FRONTEND_URI = process.env.FRONTEND_URI || 'http://localhost:3000/redirect';
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
@@ -30,6 +32,7 @@ var stateKey = 'spotify_auth_state';
 // @route GET api/auth
 // @desc Logins to the Spotfiy client
 router.get('/login', function (req, res) {
+	console.log('Hello world');
 	var state = generateRandomString(16);
 	res.cookie(stateKey, state);
 	// your application requests authorization
@@ -48,7 +51,7 @@ router.get('/login', function (req, res) {
 				response_type: 'code',
 				client_id: client_id,
 				scope: scopes.join(' '),
-				redirect_uri: REDIRECT_URI,
+				redirect_uri: CALLBACK_URI,
 				state: state,
 			})
 	);
@@ -65,8 +68,6 @@ router.get('/callback', function (req, res) {
 	var state = req.query.state || null;
 	var storedState = req.cookies ? req.cookies[stateKey] : null;
 
-	console.log(req.cookie);
-
 	if (state === null || state !== storedState) {
 		res.redirect(
 			`${FRONTEND_URI}/#${querystring.stringify({
@@ -81,7 +82,7 @@ router.get('/callback', function (req, res) {
 			method: 'post',
 			params: {
 				code,
-				redirect_uri: REDIRECT_URI,
+				redirect_uri: CALLBACK_URI,
 				grant_type: 'authorization_code',
 			},
 			headers: {
@@ -94,23 +95,11 @@ router.get('/callback', function (req, res) {
 
 		axios(authOptions)
 			.then((response) => {
-				console.log(response.data);
 				const body = response.data;
 
 				// get the access token and refresh token
 				var access_token = body.access_token,
 					refresh_token = body.refresh_token;
-
-				// Get the user profile
-				var options = {
-					headers: { Authorization: 'Bearer ' + access_token },
-					json: true,
-				};
-
-				// use the access token to access the Spotify Web API
-				axios.get('https://api.spotify.com/v1/me', options).then((response) => {
-					console.log(response.data);
-				});
 
 				// we can also pass the token to the browser to make requests from there
 				res.redirect(
@@ -121,7 +110,6 @@ router.get('/callback', function (req, res) {
 				);
 			})
 			.catch((error) => {
-				console.log(error);
 				res.redirect(
 					`${FRONTEND_URI}/#${querystring.stringify({
 						error: 'invalid_token',

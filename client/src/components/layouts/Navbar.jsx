@@ -105,13 +105,13 @@ export default function Navbar({ loggedIn }) {
 	const classes = useStyles({ loggedIn });
 	return (
 		<div className={`${classes.container}`}>
-			<button
+			<a
 				href={githubRepo}
 				className={`${classes.github}`}
 				target='_blank'
 				rel='noopener noreferrer'>
 				<FontAwesomeIcon icon={faGithub} />
-			</button>
+			</a>
 
 			{displayName && (
 				<div className={`${classes.profile}`}>
