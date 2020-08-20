@@ -131,7 +131,7 @@ export const createPopulatedPlaylist = async (
 	uris
 ) => {
 	try {
-		const result = await spotifyApi.createPlaylist(localStorage.userId, {
+		const result = await spotifyApi.createPlaylist(localStorage[userIdKey], {
 			name,
 			public: isPublic,
 			collaborative,
