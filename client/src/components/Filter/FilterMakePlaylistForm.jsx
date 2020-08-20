@@ -52,13 +52,13 @@ function FilterMakePlaylistForm({ open, setOpen, tracks, seeds }) {
 			const { name, isPrivate, isCollaborative, description } = playlistForm;
 			const result = await spotify.createPopulatedPlaylist(
 				name,
-				isPrivate,
+				!isPrivate,
 				isCollaborative,
 				description,
 				tracks.map((track) => track.uri)
 			);
 
-			if (result.snapshot_id) {
+			if (result) {
 				setLoading(false);
 				setSuccess(true);
 			}

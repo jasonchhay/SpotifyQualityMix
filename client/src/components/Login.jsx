@@ -7,7 +7,8 @@ import HeaderBar from './layouts/HeaderBar';
 const LoginText = withStyles({
 	h1: {
 		fontWeight: 700,
-		marginBottom: '.5rem',
+		marginBottom: '2.5rem',
+		lineHeight: 1,
 	},
 	h4: {
 		marginTop: '2rem',

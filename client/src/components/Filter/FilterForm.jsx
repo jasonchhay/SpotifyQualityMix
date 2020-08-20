@@ -241,20 +241,20 @@ export default function FilterForm({
 					onChange={(event) => {
 						var value = event.target.value;
 
-						if (value > 100) {
-							value = 100;
+						if (value > 50) {
+							value = 50;
 						} else if (value < 1) {
 							value = 1;
 						}
 
 						setLimit(value);
 					}}
-					label='Enter number of tracks (1-100)'
+					label='Enter number of tracks (1-50)'
 					variant='outlined'
 					margin='dense'
 					style={{ marginTop: 0, width: '12vw' }}
 					type='number'
-					InputProps={{ inputProps: { min: 1, max: 100 } }}
+					InputProps={{ inputProps: { min: 1, max: 50 } }}
 				/>
 				<Box height='min-content'>
 					<AppButton
