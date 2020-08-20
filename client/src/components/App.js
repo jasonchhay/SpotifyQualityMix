@@ -24,9 +24,8 @@ function App() {
 	useLayoutEffect(() => {
 		const params = getHashParams();
 
-		if (params.accessToken && params.refreshToken) {
-			localStorage[accessTokenKey] = accessToken;
-			localStorage[refreshToken] = refreshToken;
+		if (params.access_token) {
+			localStorage[accessTokenKey] = params.access_token;
 		}
 
 		const token = spotify.getAccessToken();

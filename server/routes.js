@@ -10,7 +10,7 @@ var client_id = process.env.CLIENT_ID; // Your client id
 var client_secret = process.env.CLIENT_SECRET; // Your secret
 
 var CALLBACK_URI = process.env.CALLBACK_URI || 'http://localhost:8888/callback'; // Your redirect uri
-var FRONTEND_URI = process.env.FRONTEND_URI || 'http://localhost:3000/redirect';
+var FRONTEND_URI = process.env.FRONTEND_URI || 'http://localhost:3000';
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
@@ -32,7 +32,6 @@ var stateKey = 'spotify_auth_state';
 // @route GET api/auth
 // @desc Logins to the Spotfiy client
 router.get('/login', function (req, res) {
-	console.log('Hello world');
 	var state = generateRandomString(16);
 	res.cookie(stateKey, state);
 	// your application requests authorization
